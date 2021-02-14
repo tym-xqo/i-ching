@@ -138,9 +138,14 @@ def transform_changing_lines(hexagram):
 
 def render_lines(hexagram):
     bottom_up = list(reversed(hexagram))
-    map = {6: "== x ==", 7: "=======", 8: "==   ==", 9: "== o =="}
+    map = {
+        6: "         == x ==",
+        7: "         =======",
+        8: "         ==   ==",
+        9: "         == o ==",
+    }
     lines = [map[x] for x in bottom_up]
-    render = "          \n          ".join(lines)
+    render = "\n".join(lines)
     return render
 
 
@@ -148,13 +153,13 @@ def main():
     hex_ = throw_hexagram()
     title = lookup_hexagram_title(hex_)
     lines = render_lines(hex_)
-    hex_out = f"Hexagram: {title}          {lines}"
+    hex_out = f"Hexagram: {title}{lines}"
     print(hex_out)
     if 6 in hex_ or 9 in hex_:
         next_hex = transform_changing_lines(hex_)
         next_title = lookup_hexagram_title(next_hex)
         next_lines = render_lines(next_hex)
-        next_out = f"Changing to: {next_title}          {next_lines}"
+        next_out = f"Changing to: {next_title}{next_lines}"
         print(next_out)
 
 

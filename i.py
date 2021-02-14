@@ -31,7 +31,7 @@ def binary_hexagram(hexagram):
     return binary_hexagram
 
 
-def lookup_hexagram_number(hexagram):
+def lookup_hexagram_title(hexagram):
     bingram = binary_hexagram(hexagram)
     bhex = {}
     bhex["111111"] = 1
@@ -119,21 +119,22 @@ def render_lines(hexagram):
     bottom_up = list(reversed(hexagram))
     map = {6: "== x ==", 7: "=======", 8: "==   ==", 9: "== o =="}
     lines = [map[x] for x in bottom_up]
-    render = "\n".join(lines)
+    render = "          \n          ".join(lines)
     return render
 
 
 def main():
     hex_ = throw_hexagram()
-    number = lookup_hexagram_number(hex_)
-    next_hex = transform_changing_lines(hex_)
-    next_number = lookup_hexagram_number(next_hex)
+    title = lookup_hexagram_title(hex_)
     lines = render_lines(hex_)
-    next_lines = render_lines(next_hex)
-    output = (
-        f"Hexagram number: {number}{lines}\n" f"Changing to: {next_number}{next_lines}"
-    )
-    print(output)
+    hex_out = f"Hexagram: {title}          {lines}"
+    print(hex_out)
+    if 6 in hex_ or 9 in hex_:
+        next_hex = transform_changing_lines(hex_)
+        next_title = lookup_hexagram_title(next_hex)
+        next_lines = render_lines(next_hex)
+        next_out = f"Changing to: {next_title}          {next_lines}"
+        print(next_out)
 
 
 if __name__ == "__main__":

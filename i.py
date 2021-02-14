@@ -17,11 +17,11 @@ from urllib.error import URLError
 def throw_hexagram():
     url = (
         "https://www.random.org/integers/"
-        "?num=7&min=0&max=15&col=1&base=10&format=plain&rnd=new"
+        "?num=6&min=0&max=15&col=1&base=10&format=plain&rnd=new"
     )
     try:
-        get = urllib.request.urlopen(url).read().decode("utf-8")
-        throw = get.split("\n")[:6]
+        get = urllib.request.urlopen(url).read().decode("utf-8").strip()
+        throw = get.split("\n")
         throw = [int(i) for i in throw]
     except URLError:
         throw = [secrets.randbelow(16) for i in range(6)]

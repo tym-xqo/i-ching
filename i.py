@@ -46,94 +46,75 @@ def binary_hexagram(hexagram):
 
 
 def lookup_hexagram_title(hexagram):
-    bhex = {}
-    bhex["111111"] = 1
-    bhex["000000"] = 2
-    bhex["100010"] = 3
-    bhex["010001"] = 4
-    bhex["111010"] = 5
-    bhex["010111"] = 6
-    bhex["010000"] = 7
-    bhex["000010"] = 8
-    bhex["111011"] = 9
-    bhex["110111"] = 10
-    bhex["111000"] = 11
-    bhex["000111"] = 12
-    bhex["101111"] = 13
-    bhex["111101"] = 14
-    bhex["001000"] = 15
-    bhex["000100"] = 16
-    bhex["100110"] = 17
-    bhex["011001"] = 18
-    bhex["110000"] = 19
-    bhex["000011"] = 20
-    bhex["100101"] = 21
-    bhex["101001"] = 22
-    bhex["000001"] = 23
-    bhex["100000"] = 24
-    bhex["100111"] = 25
-    bhex["111001"] = 26
-    bhex["100001"] = 27
-    bhex["011110"] = 28
-    bhex["010010"] = 29
-    bhex["101101"] = 30
-    bhex["001110"] = 31
-    bhex["011100"] = 32
-    bhex["001111"] = 33
-    bhex["111100"] = 34
-    bhex["000101"] = 35
-    bhex["101000"] = 36
-    bhex["101011"] = 37
-    bhex["110101"] = 38
-    bhex["001010"] = 39
-    bhex["010100"] = 40
-    bhex["110001"] = 41
-    bhex["100011"] = 42
-    bhex["111110"] = 43
-    bhex["011111"] = 44
-    bhex["000110"] = 45
-    bhex["011000"] = 46
-    bhex["010110"] = 47
-    bhex["011010"] = 48
-    bhex["101110"] = 49
-    bhex["011101"] = 50
-    bhex["100100"] = 51
-    bhex["001001"] = 52
-    bhex["001011"] = 53
-    bhex["110100"] = 54
-    bhex["101100"] = 55
-    bhex["001101"] = 56
-    bhex["011011"] = 57
-    bhex["110110"] = 58
-    bhex["010011"] = 59
-    bhex["110010"] = 60
-    bhex["110011"] = 61
-    bhex["001100"] = 62
-    bhex["101010"] = 63
-    bhex["010101"] = 64
-
-    path = os.path.dirname(os.path.realpath(__file__))
-    file = os.path.join(path, "iching-title.txt")
-    with open(file, "r") as i:
-        titles = i.readlines()
-
+    titles = {
+        "111111": "1. Ch'ien / The Creative",
+        "000000": "2. K'un / The Receptive",
+        "100010": "3. Chun / Difficulty at the Beginning",
+        "010001": "4. Mêng / Youthful Folly",
+        "111010": "5. Hsü / Waiting (Nourishment)",
+        "010111": "6. Sung / Conflict",
+        "010000": "7. Shih / The Army",
+        "000010": "8. Pi / Holding Together [union]",
+        "111011": "9. Hsiao Ch'u / The Taming Power of the Small",
+        "110111": "10. Lü / Treading [conduct]",
+        "111000": "11. T'ai / Peace",
+        "000111": "12. P'i / Standstill [Stagnation]",
+        "101111": "13. T'ung Jên / Fellowship with Men",
+        "111101": "14. Ta Yu / Possession in Great Measure",
+        "001000": "15. Ch'ien / Modesty",
+        "000100": "16. Yü / Enthusiasm",
+        "100110": "17. Sui / Following",
+        "011001": "18. Ku / Work on what has been spoiled [ Decay ]",
+        "110000": "19. Lin / Approach",
+        "000011": "20. Kuan / Contemplation (View)",
+        "100101": "21. Shih Ho / Biting Through",
+        "101001": "22. Pi / Grace",
+        "000001": "23. Po / Splitting Apart",
+        "100000": "24. Fu / Return (The Turning Point)",
+        "100111": "25. Wu Wang / Innocence (The Unexpected)",
+        "111001": "26. Ta Ch'u / The Taming Power of the Great",
+        "100001": "27. I / Corners of the Mouth (Providing Nourishment)",
+        "011110": "28. Ta Kuo / Preponderance of the Great",
+        "010010": "29. K'an / The Abysmal (Water)",
+        "101101": "30. Li / The Clinging, Fire",
+        "001110": "31. Hsien / Influence (Wooing)",
+        "011100": "32. Hêng / Duration",
+        "001111": "33. TUN / Retreat",
+        "111100": "34. Ta Chuang / The Power of the Great",
+        "000101": "35. Chin / Progress",
+        "101000": "36. Ming I / Darkening of the light",
+        "101011": "37. Chia Jên / The Family [The Clan]",
+        "110101": "38. K'uei / Opposition",
+        "001010": "39. Chien / Obstruction",
+        "010100": "40. Hsieh / Deliverance",
+        "110001": "41. Sun / Decrease",
+        "100011": "42. I / Increase",
+        "111110": "43. Kuai / Break-through (Resoluteness)",
+        "011111": "44. Kou / Coming to Meet",
+        "000110": "45. Ts'ui / Gathering Together [Massing]",
+        "011000": "46. Shêng / Pushing Upward",
+        "010110": "47. K'un / Oppression (Exhaustion)",
+        "011010": "48. Ching / The Well",
+        "101110": "49. Ko / Revolution (Molting)",
+        "011101": "50. Ting / The Caldron",
+        "100100": "51. Chên / The Arousing (Shock, Thunder)",
+        "001001": "52. Kên / Keeping Still, Mountain",
+        "001011": "53. Chien / Development (Gradual Progress)",
+        "110100": "54. Kuei Mei / The Marrying Maiden",
+        "101100": "55. Fêng / Abundance [Fullness]",
+        "001101": "56. Lü / The Wanderer",
+        "011011": "57. Sun / The Gentle (The Penetrating, Wind)",
+        "110110": "58. Tui / The Joyous, Lake",
+        "010011": "59. Huan / Dispersion [Dissolution]",
+        "110010": "60. Chieh / Limitation",
+        "110011": "61. Chung Fu / Inner Truth",
+        "001100": "62. Hsiao Kuo / Preponderance of the Small",
+        "101010": "63. Chi Chi / After Completion",
+        "010101": "64. Wei Chi / Before Completion",
+    }
     bingram = binary_hexagram(hexagram)
-
-    # lookup hexagram based on binary mapping above
-    idx = bhex[bingram] - 1  # offset by 1 b/c readlines list counts from 0
-    title = titles[idx]
+    title = titles[bingram]
     return title
-
-
-def transform_changing_lines(hexagram):
-    new_hexagram = []
-    for i in hexagram:
-        if i == 6:
-            i = 7
-        elif i == 9:
-            i = 8
-        new_hexagram.append(i)
-    return new_hexagram
 
 
 def render_lines(hexagram):
@@ -149,17 +130,28 @@ def render_lines(hexagram):
     return render
 
 
+def transform_changing_lines(hexagram):
+    new_hexagram = []
+    for i in hexagram:
+        if i == 6:
+            i = 7
+        elif i == 9:
+            i = 8
+        new_hexagram.append(i)
+    return new_hexagram
+
+
 def main():
     hex_ = throw_hexagram()
     title = lookup_hexagram_title(hex_)
     lines = render_lines(hex_)
-    hex_out = f"Hexagram: {title}{lines}"
+    hex_out = f"Hexagram: {title}\n{lines}"
     print(hex_out)
     if 6 in hex_ or 9 in hex_:
         next_hex = transform_changing_lines(hex_)
         next_title = lookup_hexagram_title(next_hex)
         next_lines = render_lines(next_hex)
-        next_out = f"Changing to: {next_title}{next_lines}"
+        next_out = f"Changing to: {next_title}\n{next_lines}"
         print(next_out)
 
 

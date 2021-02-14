@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import secrets
+import urllib.request
+from urllib.error import URLError
 
-# TODO: get these  unicode hexagrams into the output
+# TODO: use these cool unicode hexagrams in the output
 """
 01 ䷀	02 ䷁	03 ䷂	04 ䷃	05 ䷄	06 ䷅	07 ䷆	08 ䷇	09 ䷈	10 ䷉	11 ䷊	12 ䷋	13 ䷌	14 ䷍	15 ䷎	16 ䷏
 17 ䷐	18 ䷑	19 ䷒	20 ䷓	21 ䷔	22 ䷕	23 ䷖	24 ䷗	25 ䷘	26 ䷙	27 ䷚	28 ䷛	29 ䷜	30 ䷝	31 ䷞	32 ䷟
@@ -12,10 +15,21 @@ import secrets
 
 
 def throw_hexagram():
+    url = (
+        "https://www.random.org/integers/"
+        "?num=7&min=0&max=15&col=1&base=10&format=plain&rnd=new"
+    )
+    try:
+        get = urllib.request.urlopen(url).read().decode("utf-8")
+        throw = get.split("\n")[:6]
+        throw = [int(i) for i in throw]
+    except URLError:
+        throw = [secrets.randbelow(16) for i in range(6)]
+
     prob = [6, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 7, 7, 7, 7, 7]
     hexagram = []
-    for i in range(0, 6):
-        x = secrets.choice(prob)
+    for i in throw:
+        x = prob[i]
         hexagram.append(x)
     return hexagram
 
@@ -32,7 +46,6 @@ def binary_hexagram(hexagram):
 
 
 def lookup_hexagram_title(hexagram):
-    bingram = binary_hexagram(hexagram)
     bhex = {}
     bhex["111111"] = 1
     bhex["000000"] = 2
@@ -98,10 +111,18 @@ def lookup_hexagram_title(hexagram):
     bhex["001100"] = 62
     bhex["101010"] = 63
     bhex["010101"] = 64
-    with open("iching-title.txt", "r") as i:
-        chis = i.readlines()
-    chi = chis[bhex[bingram] - 1]
-    return chi
+
+    path = os.path.dirname(os.path.realpath(__file__))
+    file = os.path.join(path, "iching-title.txt")
+    with open(file, "r") as i:
+        titles = i.readlines()
+
+    bingram = binary_hexagram(hexagram)
+
+    # lookup hexagram based on binary mapping above
+    idx = bhex[bingram] - 1  # offset by 1 b/c readlines list counts from 0
+    title = titles[idx]
+    return title
 
 
 def transform_changing_lines(hexagram):
@@ -139,3 +160,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # throw_hexagram()

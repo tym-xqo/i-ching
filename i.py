@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import secrets
 import urllib.request
 from urllib.error import URLError
@@ -17,16 +16,16 @@ from urllib.error import URLError
 def throw_hexagram():
     url = (
         "https://www.random.org/integers/"
-        "?num=6&min=0&max=15&col=1&base=10&format=plain&rnd=new"
+        "?num=6&min=0&max=15&col=6&base=10&format=plain&rnd=new"
     )
     try:
         get = urllib.request.urlopen(url).read().decode("utf-8").strip()
-        throw = get.split("\n")
+        throw = get.split("\t")
         throw = [int(i) for i in throw]
     except URLError:
         throw = [secrets.randbelow(16) for i in range(6)]
 
-    prob = [6, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 7, 7, 7, 7, 7]
+    prob = [6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9]
     hexagram = []
     for i in throw:
         x = prob[i]
@@ -157,4 +156,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # throw_hexagram()
